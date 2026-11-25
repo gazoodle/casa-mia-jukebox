@@ -1,0 +1,7 @@
+{
+  "name": "Jukebox",
+  "homeassistant": "2026.3.0",
+  "zip_release": true,
+  "filename": "jukebox.zip",
+  "hide_default_branch": true
+}
