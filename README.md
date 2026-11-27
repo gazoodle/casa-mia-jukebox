@@ -11,7 +11,7 @@
 A page for the music on your Sonos speakers, and announcements on them with a chime, a
 volume for each room and quiet hours.
 
-> **Maturity: Alpha.** Does its job every day in the author's house, but hasn't been tried in many others. Expect rough edges and changes. ([The levels](https://github.com/gazoodle/casa-mia/blob/2026.11.14/docs/README.md#maturity))
+> **Maturity: Alpha.** Does its job every day in the author's house, but hasn't been tried in many others. Expect rough edges and changes. ([The levels](https://github.com/gazoodle/casa-mia/blob/2026.11.15/docs/README.md#maturity))
 
 Jukebox is meant to become one place to manage the house's music across Sonos, Spotify
 and a local library. Built so far: its page with a player for each thing playing; the
@@ -19,7 +19,7 @@ rooms and a volume for each; the queue; favourites and Sonos playlists, which yo
 look into and change; a search of the music library and Spotify; cards for your own
 dashboards; a lock that stops guests changing the music at a party; and announcements.
 
-<img src="https://raw.githubusercontent.com/gazoodle/casa-mia/2026.11.14/docs/screenshots/jukebox.webp" alt="Jukebox's page, headed Music: three small players, for Starman playing in the den and snug, Blue Monday on a station in the kitchen, its cover carrying the station's badge, and Feeling Good in the garden, each with pause, skip or stop, and a volume slider. Under them, the porch and this computer are listed as quiet rooms and the shed as not answering" width="800">
+<img src="https://raw.githubusercontent.com/gazoodle/casa-mia/2026.11.15/docs/screenshots/jukebox.webp" alt="Jukebox's page, headed Music: three small players, for Starman playing in the den and snug, Blue Monday on a station in the kitchen, its cover carrying the station's badge, and Feeling Good in the garden, each with pause, skip or stop, and a volume slider. Under them, the porch and this computer are listed as quiet rooms and the shed as not answering" width="800">
 
 It adds no media players. Each room stays the one entity that Home Assistant's Sonos
 integration makes, and Jukebox, the Sonos app and your dashboards all use that entity.
@@ -170,7 +170,7 @@ Tap a player to open it over the whole screen. There you have:
   that place, nothing is changed and you are told. Each heading in Favourites folds
   its section away. A playlist's tile shows the covers of the first four albums in it,
   and is drawn again after the playlist has been changed.
-<img src="https://raw.githubusercontent.com/gazoodle/casa-mia/2026.11.14/docs/screenshots/jukebox-player.webp" alt="Jukebox's big player on a wide screen. On the left the cover of Starman by David Bowie, playing in the den and snug, with the place in the song, shuffle, previous, pause, next and repeat, and the volume. On the right the Queue tab: Add, Edit, Save and Clear, then eight songs, each with a handle to drag it by, its picture, title, artist and album, its length, and a cross to take it out" width="800">
+<img src="https://raw.githubusercontent.com/gazoodle/casa-mia/2026.11.15/docs/screenshots/jukebox-player.webp" alt="Jukebox's big player on a wide screen. On the left the cover of Starman by David Bowie, playing in the den and snug, with the place in the song, shuffle, previous, pause, next and repeat, and the volume. On the right the Queue tab: Add, Edit, Save and Clear, then eight songs, each with a handle to drag it by, its picture, title, artist and album, its length, and a cross to take it out" width="800">
 
 - **Edit…** (on a wide screen only, on the Queue tab and on a playlist's
   songs) opens an editor over the whole screen: the queue or the playlist on the left,
@@ -202,16 +202,18 @@ Tap a player to open it over the whole screen. There you have:
   side more room. The width is remembered in that browser. Once you have moved it, a
   small round button on the bar puts it back; so does a double tap on the bar.
 
-<img src="https://raw.githubusercontent.com/gazoodle/casa-mia/2026.11.14/docs/screenshots/jukebox-editor.webp" alt="Jukebox's editor for the queue in the den and snug. On the left the queue's eight songs. On the right a search for moon, with songs, albums and playlists found in the music library and on Spotify. The third song of the queue is chosen, and is shown above the list with its cover, title, artist and album, and buttons to play from it, move it to the top or the end, or take it out" width="800">
+<img src="https://raw.githubusercontent.com/gazoodle/casa-mia/2026.11.15/docs/screenshots/jukebox-editor.webp" alt="Jukebox's editor for the queue in the den and snug. On the left the queue's eight songs. On the right a search for moon, with songs, albums and playlists found in the music library and on Spotify. The third song of the queue is chosen, and is shown above the list with its cover, title, artist and album, and buttons to play from it, move it to the top or the end, or take it out" width="800">
 
 - **Search:** one box searches the Sonos music library and Spotify together, and shows
   what each found under its own heading. Press **+** beside a result to play it, play
   it next or add it to the end of the queue. An album, an artist or a playlist can be
   opened to see what is in it. While the box is empty you can browse the music library
-  and Spotify instead. Spotify is searched through Home Assistant's
+  and Spotify instead. Spotify is searched with Jukebox's own sign-in to Spotify
+  ([Songs from Spotify](#songs-from-spotify) has the steps). What it finds is opened
+  and played through Home Assistant's
   [Spotify integration](https://www.home-assistant.io/integrations/spotify), which
-  must be set up and signed in, and Spotify must be linked to Sonos as a music
-  service for its music to play. If one of the two can't be searched, the player says
+  must be set up too, and Spotify must be linked to Sonos as a music service for its
+  music to play. If one of the two can't be searched, the player says
   why and still shows the other's results.
 
 On a phone the queue, rooms, favourites and search open as a sheet over the player. On a wide screen,
@@ -237,7 +239,8 @@ take one out, shuffle and repeat. It plays:
 - a Sonos playlist or favourite, and anything found by Search;
 - songs from the music library;
 - songs from Spotify;
-- radio stations, from TuneIn or with a web address of their own.
+- radio stations, from TuneIn or with a web address of their own, when a Sonos room is
+  playing the station or it is one of the Sonos favourites.
 
 A song from any other music service can't be played on a phone. It is left out, and
 the player says how many were.
@@ -270,7 +273,8 @@ Until then, a library song is refused with a message that says so.
 
 ### Songs from Spotify
 
-Spotify plays on a phone through Spotify's own player for web pages. That needs a
+Spotify plays on a phone through Spotify's own player for web pages, which runs in a
+frame of Spotify's, kept apart from Home Assistant's page. That needs a
 Spotify Premium account, a page reached over `https`, and a sign-in of Jukebox's own:
 Home Assistant's Spotify integration is a remote control, and Spotify doesn't let its
 sign-in play music.
@@ -284,10 +288,13 @@ sign-in play music.
    developer app's client ID and client secret.
 4. Sign in on Spotify's page with the account the house uses, and agree.
 
-Only administrators and the logins listed under **Who may run a party** can then
-listen to Spotify on their own device. The page is given a key to the Spotify account
-to play with, so it is not handed to every login. The library and radio stations need
-no sign-in and are for everyone.
+Search and the covers of songs on the radio use the same sign-in. They don't need
+Spotify Premium.
+
+Only administrators can then listen to Spotify on their own device. The page is given
+a key to the Spotify account to play with, and whoever holds it can act as that
+account, so it isn't given to the logins listed under **Who may run a party** either.
+The library and radio stations need no sign-in and are for everyone.
 
 Spotify plays in one place at a time for one account. If the same account starts
 playing on the speakers, it stops on the phone, and the player says so.
@@ -378,8 +385,9 @@ Limits:
 
 ## The cover of a song on the radio
 
-While a station plays, a player's picture is the station's own. Where Home Assistant's
-Spotify integration is set up, Jukebox also looks the song up on Spotify, by the title
+While a station plays, a player's picture is the station's own. Where Jukebox is signed
+in to Spotify ([Songs from Spotify](#songs-from-spotify)), it also looks the song up on
+Spotify, by the title
 and artist the station sends, and shows the song's cover with the station's picture on
 it as a small round badge. The badge is how you tell a station from a queue.
 
@@ -394,7 +402,7 @@ it as a small round badge. The badge is how you tell a station from a queue.
 - Each song is looked up once, when a speaker starts playing it, with three searches
   sent together. The title and artist of every song your stations play are sent to
   Spotify as searches from your account.
-- Without the Spotify integration nothing changes.
+- Without that sign-in nothing changes.
 
 ### Adding a song on the radio to a playlist
 
@@ -409,7 +417,7 @@ song to the end of the one you choose.
   has moved on by the time you choose a playlist.
 - When there is no song to add, the button is dimmed, and pressing it says why: the
   station sent no artist and title, Spotify has no song that matches, the song is still
-  being looked for, or the Spotify integration isn't set up.
+  being looked for, or Jukebox isn't signed in to Spotify.
 - When there is no song to add, pressing the button also looks for it on Spotify once
   more. If Spotify didn't answer the first time, the song can be added once it has.
 - To start a new playlist with the song, type a name under the list and press **New
@@ -419,7 +427,7 @@ song to the end of the one you choose.
 
 ## With Love it or Loathe it
 
-Where [Love it or Loathe it](https://github.com/gazoodle/casa-mia/blob/2026.11.14/docs/applets/love-or-loathe.md) is installed and watches a speaker,
+Where [Love it or Loathe it](https://github.com/gazoodle/casa-mia/blob/2026.11.15/docs/applets/love-or-loathe.md) is installed and watches a speaker,
 Jukebox works with it. The two share no settings; there is nothing to set up.
 
 - **The thumbs** are under the song's title on the big player and on the Now playing
@@ -450,7 +458,7 @@ and add the pieces you want. Each is in the card picker under "Casa Mia Jukebox"
 | **Shortcut** | One button that plays one favourite in the rooms you choose. | The favourite's name, the rooms, and optionally what the button says, an icon, and whether to play it next or add it to the end of the queue. |
 | **Now playing** | The whole player for one room, in place: artwork, controls, queue, rooms, favourites, search and the party lock. | The room. |
 
-<img src="https://raw.githubusercontent.com/gazoodle/casa-mia/2026.11.14/docs/screenshots/jukebox-micro.webp" alt="Five micro players side by side: a song playing, with small bars on its cover; a station that is muted, with a crossed speaker; a paused song, with the bars low and still; a quiet room, shown as a speaker; and a room that is not answering, with a red warning sign" width="600">
+<img src="https://raw.githubusercontent.com/gazoodle/casa-mia/2026.11.15/docs/screenshots/jukebox-micro.webp" alt="Five micro players side by side: a song playing, with small bars on its cover; a station that is muted, with a crossed speaker; a paused song, with the bars low and still; a quiet room, shown as a speaker; and a room that is not answering, with a red warning sign" width="600">
 
 Every card is set up with a form in the dashboard editor, with the usual Layout and
 Visibility tabs beside it; none needs YAML.
@@ -635,7 +643,7 @@ These are the differences that mattered there:
   what it found to the queue. Jukebox has no podcasts or audiobooks and keeps no
   library of its own.
 - **There is no server to run.** It is one integration, and it uses the Sonos and
-  Spotify integrations you already have.
+  Spotify integrations you already have, with a sign-in of its own to Spotify.
 
 [Listening on your own phone](#listening-on-your-own-phone) is the exception to the
 first two: there the queue is kept by the page, and Home Assistant sends the phone its
@@ -650,7 +658,7 @@ Music Assistant is the one to use if:
 ## Part of Casa Mia
 
 Jukebox is part of [Casa Mia](https://github.com/gazoodle/casa-mia), where it is written and
-released. This repository is generated from Casa Mia 2026.11.14 (commit `42fa8d08ab`) and
+released. This repository is generated from Casa Mia 2026.11.15 (commit `64421648df`) and
 isn't edited by hand, so a change to Jukebox is made in Casa Mia. A problem with it is
 reported here, in this repository's [issues](https://github.com/gazoodle/casa-mia-jukebox/issues).
 
